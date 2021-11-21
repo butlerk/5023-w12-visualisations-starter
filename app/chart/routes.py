@@ -58,7 +58,8 @@ def books_read_by_user_chart():
     df = pd.read_sql(user_query.statement, user_query.session.bind)
 
     # Draw the chart and dump it into JSON format
-    chart = px.bar(df, x='username', y='books_read_per_year')
+    chart = px.bar(df, x='username', y='books_read_per_year',labels=
+        {"username": "Username","books_read_per_year":"Number of books read per year"}, color='username')
     chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
 
     # Returns the template, including the JSON data for the chart
@@ -76,10 +77,10 @@ def books_by_genre_chart():
         "GROUP BY name "
     )
     df = pd.read_sql(query, db.session.bind)
-    print(df)
+    
     # Draw the chart and dump it into JSON format
     chart = px.bar(df, x ='name', y='genre_count', labels=
-        {"name": "Genre","genre_count":"Number in each Genre"})
+        {"name": "Genre","genre_count":"Number in each Genre"}, color = 'name')
     chart_JSON = json.dumps(chart, cls=plotly.utils.PlotlyJSONEncoder, indent=4)
 
      # Returns the template, including the JSON data for the chart
